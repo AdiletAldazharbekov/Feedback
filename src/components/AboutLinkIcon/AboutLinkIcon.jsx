@@ -1,9 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { FaUserTie } from "react-icons/fa";
 import {Link} from 'react-router-dom'
 
-function AboutLinkIcon(props) {
+function AboutLinkIcon() {
 	return (
 		<div className="about-link">
 			<Link to={"/"}>
@@ -12,7 +11,5 @@ function AboutLinkIcon(props) {
 		</div>
 	);
 }
-
-AboutLinkIcon.propTypes = {};
 
 export default AboutLinkIcon;

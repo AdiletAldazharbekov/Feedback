@@ -1,11 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import Card from "../../Shared/Card";
-import { FaTimes } from "react-icons/fa";
+import { FiTrash2} from "react-icons/fi";
 import { Link } from "react-router-dom";
+import FeedbackContext from "../../context/FeedbackContext";
 
-function Post({ handleDelete }) {
+function Post() {
+	const { deleteFeedback } = useContext(FeedbackContext);
 	const params = useParams();
 
 	return (
@@ -13,18 +14,18 @@ function Post({ handleDelete }) {
 			<Link to={"/"}>
 				<button
 					className="close"
-					onClick={() => handleDelete(params.id)}
+					onClick={() => deleteFeedback(params.id)}
 				>
-					<FaTimes />
+					<FiTrash2 color="purple"/>
 				</button>
 			</Link>
 			<div className="num-display">{params.rating}</div>
-            <h2>Post text: <br /> <i>{params.name}</i></h2>
+			<h2>
+				Post text: <br /> <i>{params.name}</i>
+			</h2>
 			<Link to={"/"}>Back Home</Link>
 		</Card>
 	);
 }
-
-Post.propTypes = {};
 
 export default Post;
