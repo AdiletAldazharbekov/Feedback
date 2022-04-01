@@ -50,6 +50,7 @@ const FeedbackForm = () => {
 			setText("");
 		}
 	};
+	
 	return (
 		<Card>
 			<form onSubmit={handleSubmit}>

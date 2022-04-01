@@ -2,7 +2,6 @@ import FeedbackForm from "./components/FeedbackForm/FeedbackForm";
 import FeedbackList from "./components/FeedbackList/FeedbackList";
 import FeedbackStat from "./components/FeedbackStat/FeedbackStat";
 import Header from "./components/Header/Header";
-import FeedbackData from "./data/FeedbackData";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AboutPages from "./pages/AboutPages";
 import AboutLinkIcon from "./components/AboutLinkIcon/AboutLinkIcon";

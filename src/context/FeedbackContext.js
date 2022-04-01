@@ -1,5 +1,5 @@
-import { createContext } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { createContext, useEffect } from "react";
+// import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
 const FeedbackContext = createContext();
@@ -7,19 +7,49 @@ const FeedbackContext = createContext();
 export const FeedbackProvider = ({ children }) => {
 	// Huks
 	const [feedback, setFeedback] = useState([]);
+
+	useEffect(() => {
+		fetchFeedback();
+	}, []);
+
+	// Fetch
+	const fetchFeedback = async () => {
+		const response = await fetch(
+			"https://62470445e3450d61b006097f.mockapi.io/feedback"
+		);
+		const data = await response.json();
+		setFeedback(data);
+	};
+
 	const [feedbackEdit, setFeedbackEdit] = useState({
 		item: {},
 		edit: false,
 	});
+
 	// Functions
-	const deleteFeedback = (id) => {
+	const deleteFeedback = async (id) => {
 		if (window.confirm("Удалить feedback?"))
-			setFeedback(feedback.filter((el) => el.id !== id));
+			await fetch(
+				`https://62470445e3450d61b006097f.mockapi.io/feedback/${id}`,
+				{ method: "DELETE" }
+			);
+		setFeedback(feedback.filter((el) => el.id !== id));
 	};
 
-	const addFeedback = (newFeedback) => {
-		newFeedback.id = uuidv4();
-		setFeedback([newFeedback, ...feedback]);
+	const addFeedback = async (newFeedback) => {
+		// newFeedback.id = uuidv4();
+		const response = await fetch(
+			"https://62470445e3450d61b006097f.mockapi.io/feedback",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(newFeedback),
+			}
+		);
+		const data = await response.json();
+		setFeedback([data, ...feedback]);
 	};
 
 	const editFeedback = (item) => {
@@ -29,11 +59,23 @@ export const FeedbackProvider = ({ children }) => {
 		});
 	};
 
-	const updateFeedback = (id,newFeedback) => {
-		if (window.confirm("Сохранить изменения?"))
-		setFeedback(feedback.filter((el) => el.id !== id));
-		newFeedback.id=id
-		setFeedback([newFeedback, ...feedback]);
+	const updateFeedback = async (id, updItem) => {
+		const response = await fetch(
+			`https://62470445e3450d61b006097f.mockapi.io/feedback/${id}`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(updItem),
+			}
+		);
+		const data = await response.json();
+		setFeedback(
+			feedback.map((item) =>
+				item.id === id ? { ...item, ...data } : item
+			)
+		);
 	};
 
 	return (
